@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"@vittles/app/*": [
+				"./packages/app/*"
+			],
+			"@vittles/api/*": [
+				"./packages/api/*"
+			],
+			"@vittles/ui/*": [
+				"./packages/ui/*"
+			],
+		}
+	},
+	"extends": "expo/tsconfig.base"
+}

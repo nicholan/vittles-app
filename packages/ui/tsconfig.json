@@ -1,0 +1,10 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"strict": true,
+		"strictNullChecks": true,
+		"noUncheckedIndexedAccess": true,
+		"baseUrl": "."
+	},
+	"include": ["**/*.ts", "**/*.tsx", "../../nativewind-env.d.ts", "tailwind.config.js"]
+}

@@ -1,0 +1,25 @@
+{
+	"name": "vittles-app",
+	"type": "module",
+	"scripts": {
+		"ios": "cd apps/expo && bun ios",
+		"android": "cd apps/expo && bun android",
+		"start": "cd apps/expo && bun start:tunnel",
+		"web": "cd apps/expo && bun web",
+		"biome:all": "bun lint && bun fix && bun format",
+		"format": "bun x @biomejs/biome format --write ./packages ./apps",
+		"lint": "bun x @biomejs/biome lint --write --unsafe ./packages ./apps",
+		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
+		"clean": "rm -f bun.lockb && rm -rf ./node_modules && rm -rf ./apps/expo/node_modules && rm -rf ./apps/expo/bun.lockb"
+	},
+	"devDependencies": {
+		"@types/react": "^18.3.3",
+		"@types/bun": "latest",
+		"@biomejs/biome": "^1.8.3"
+	},
+	"peerDependencies": {
+		"typescript": "^5.5.4"
+	},
+	"dependencies": {},
+	"workspaces": ["apps/*", "packages/*"]
+}

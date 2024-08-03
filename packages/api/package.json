@@ -1,0 +1,27 @@
+{
+	"name": "@vittles/api",
+	"version": "1.0.0",
+	"scripts": {
+		"generate": "drizzle-kit generate:sqlite --schema=./src/db/schema.ts --out=./migrations",
+		"migrate": "wrangler d1 migrations apply production",
+		"migrate:local": "wrangler d1 migrations apply production --local",
+		"seed": "wrangler d1 execute production --file=./seed/seed.sql",
+		"seed:local": "wrangler d1 execute production --local --file=./seed/seed.sql",
+		"studio": "drizzle-kit studio"
+	},
+	"dependencies": {
+		"@hono/trpc-server": "^0.3.2",
+		"@trpc/server": "^10.45.2",
+		"@tsndr/cloudflare-worker-jwt": "^2.5.3",
+		"drizzle-orm": "^0.32.1",
+		"drizzle-valibot": "^0.2.0",
+		"hono": "^4.5.3",
+		"superjson": "^2.2.1",
+		"valibot": "^0.37.0"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20240725.0",
+		"drizzle-kit": "^0.23.1",
+		"wrangler": "^3.68.0"
+	}
+}
