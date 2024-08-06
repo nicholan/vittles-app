@@ -1,15 +1,15 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"baseUrl": ".",
+		"baseUrl": "."
 	},
 	"include": [
 		"**/*.ts",
 		"**/*.tsx",
-		"expo-env.d.ts",
 		"babel.config.js",
 		"tailwind.config.js",
+		"metro.config.js",
 		".expo/types/**/*.ts",
-		"metro.config.js"
+		"expo-env.d.ts"
 	]
 }

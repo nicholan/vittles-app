@@ -1,10 +1,13 @@
 {
 	"name": "vittles-app",
 	"type": "module",
+	"private": true,
+	"license": "ISC",
 	"scripts": {
 		"ios": "cd apps/expo && bun ios",
 		"android": "cd apps/expo && bun android",
-		"start": "cd apps/expo && bun start:tunnel",
+		"start": "cd apps/expo && bun start",
+		"start:tunnel": "cd apps/expo && bun start:tunnel",
 		"web": "cd apps/expo && bun web",
 		"biome:all": "bun lint && bun fix && bun format",
 		"format": "bun x @biomejs/biome format --write ./packages ./apps",
@@ -20,6 +23,7 @@
 	"peerDependencies": {
 		"typescript": "^5.5.4"
 	},
+	"workspaces": ["apps/*", "packages/*"],
 	"dependencies": {},
-	"workspaces": ["apps/*", "packages/*"]
+	"packageManager": "bun@1.1.20"
 }

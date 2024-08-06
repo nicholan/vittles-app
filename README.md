@@ -1,14 +1,14 @@
 ## 🛠️ Tech Stack
 
 - [TypeScript](https://www.typescriptlang.org)
-- [Bun] (https://bun.sh/)
+- [Bun](https://bun.sh/)
 
 ### Frontend
 
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.io)
 - [Expo Router](https://docs.expo.dev/routing/introduction/)
-- [NativeWind] (https://www.nativewind.dev/)
+- [NativeWind](https://www.nativewind.dev/)
 
 ### Backend
 
