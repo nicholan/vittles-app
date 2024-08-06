@@ -1,7 +1,7 @@
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, View } from "react-native";
 
-export const RegisterScreen = (): React.ReactNode => {
+export const Register = (): React.ReactNode => {
 	const { supabaseClient, session } = useSessionContext();
 
 	const handleSignOut = async () => {

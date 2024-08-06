@@ -1,6 +1,6 @@
-import { LoginScreen } from "@vittles/app/features/login/screen";
+import { Login } from "@vittles/app/features/login/Login";
 import { Text, View } from "react-native";
 
 export default function LoginPage() {
-	return <LoginScreen />;
+	return <Login />;
 }
