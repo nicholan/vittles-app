@@ -21,9 +21,9 @@
 			"tsconfigPaths": true
 		},
 		"extra": {
-			// "router": {
-			// 	"origin": false
-			// },
+			"router": {
+				"origin": false
+			},
 			"eas": {
 				"projectId": "f7466d88-95f1-41b8-bf02-3c0fa554e664"
 			}

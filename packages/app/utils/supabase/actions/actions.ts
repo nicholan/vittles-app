@@ -5,7 +5,8 @@ import * as WebBrowser from "expo-web-browser";
 
 export const handleOAuthSignIn = async (provider: Provider) => {
 	try {
-		const redirectUri = (await getInitialURL()) || "vittles-app://";
+		const redirectUri = (await getInitialURL()) ?? "vittles-app://";
+
 		const response = await WebBrowser.openAuthSessionAsync(
 			`${process.env.EXPO_PUBLIC_SUPABASE_URL}/auth/v1/authorize?provider=${provider}&redirect_to=${redirectUri}`,
 			redirectUri,
@@ -13,6 +14,7 @@ export const handleOAuthSignIn = async (provider: Provider) => {
 
 		if (response.type === "success") {
 			const url = response.url;
+
 			const params = new URLSearchParams(url.split("#")[1]);
 			const accessToken = params.get("access_token") || "";
 			const refreshToken = params.get("refresh_token") || "";
@@ -33,6 +35,7 @@ export const handleOAuthSignIn = async (provider: Provider) => {
 		}
 	} catch (error) {
 		console.log(`${provider} sign in failed.`);
+		console.log(error);
 	} finally {
 		WebBrowser.maybeCompleteAuthSession();
 	}

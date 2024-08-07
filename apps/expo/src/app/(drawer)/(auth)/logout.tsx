@@ -4,6 +4,7 @@ import { Link, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
+// FIXME logout on mobile doesnt always redirect to home.
 export default function LogoutPage() {
 	const router = useRouter();
 	const { supabaseClient, isLoading } = useSessionContext();
@@ -12,9 +13,10 @@ export default function LogoutPage() {
 		supabaseClient.auth
 			.signOut()
 			.then(() => {
-				router.navigate("/");
+				router.push("/");
 			})
 			.catch((err) => {
+				console.log(err);
 				return (
 					<View className="flex-1 items-center justify-center gap-2">
 						<Text>Something went wrong.</Text>
@@ -24,7 +26,7 @@ export default function LogoutPage() {
 					</View>
 				);
 			});
-	}, [supabaseClient, router]);
+	}, [router, supabaseClient]);
 
 	if (isLoading) return <LoadingSpinner />;
 }

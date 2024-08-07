@@ -4,7 +4,6 @@
 	"private": true,
 	"license": "ISC",
 	"scripts": {
-		"ios": "cd apps/expo && bun ios",
 		"android": "cd apps/expo && bun android",
 		"start": "cd apps/expo && bun start",
 		"start:tunnel": "cd apps/expo && bun start:tunnel",
@@ -13,7 +12,8 @@
 		"format": "bun x @biomejs/biome format --write ./packages ./apps",
 		"lint": "bun x @biomejs/biome lint --write --unsafe ./packages ./apps",
 		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
-		"clean": "rm -f bun.lockb && rm -rf ./node_modules && rm -rf ./apps/expo/node_modules && rm -rf ./apps/expo/bun.lockb"
+		"clean": "rm -f bun.lockb && rm -rf ./node_modules && rm -rf ./apps/expo/node_modules && rm -rf ./apps/expo/bun.lockb",
+		"log": "adb logcat *:S ReactNative:V ReactNativeJS:V"
 	},
 	"devDependencies": {
 		"@types/react": "^18.3.3",
