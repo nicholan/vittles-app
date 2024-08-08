@@ -6,7 +6,10 @@
 		"start": "expo start --tunnel --clear",
 		"android": "expo run:android",
 		"prebuild": "expo prebuild --platform android --bun --clean",
-		"ios": "expo run:ios"
+		"ios": "expo run:ios",
+		"log:emulator": "react-native log-android",
+		"log:device": "adb logcat *:S ReactNative:V ReactNativeJS:V",
+		"connect": "adb connect 192.168.1.192:5555"
 	},
 	"dependencies": {
 		"@react-native-async-storage/async-storage": "^1.24.0",

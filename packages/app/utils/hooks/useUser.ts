@@ -1,9 +1,9 @@
-import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useUser as useUserOg } from "@supabase/auth-helpers-react";
 
-export const useUser = () => {
-	const { session, isLoading, error } = useSessionContext();
-	const user = session?.user;
+export default function useUser() {
+	const data = useUserOg();
 
-	// Fetch user related data?
-	return user;
-};
+	// TODO: Get user related info.
+
+	return data;
+}

@@ -1,5 +1,5 @@
-import { supabase } from "@vittles/app/utils/supabase/client";
+import { supabase } from "../supabase/client";
 
 export const useSupabase = () => {
-	return { supabase };
+	return supabase;
 };

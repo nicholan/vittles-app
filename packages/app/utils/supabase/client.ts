@@ -1,7 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from "expo-secure-store";
+import { createClient } from "@supabase/supabase-js";
 import * as aesjs from "aes-js";
+import * as SecureStore from "expo-secure-store";
 import "react-native-get-random-values";
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;

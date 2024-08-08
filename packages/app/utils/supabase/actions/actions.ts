@@ -1,7 +1,7 @@
 import type { Provider } from "@supabase/supabase-js";
-import { supabase } from "../client";
 import { getInitialURL } from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import { supabase } from "../client";
 
 export const handleOAuthSignIn = async (provider: Provider) => {
 	try {
@@ -13,11 +13,8 @@ export const handleOAuthSignIn = async (provider: Provider) => {
 		);
 
 		if (response.type === "success") {
-			const url = response.url;
+			const { accessToken, refreshToken } = getTokensFromUrl(response.url);
 
-			const params = new URLSearchParams(url.split("#")[1]);
-			const accessToken = params.get("access_token") || "";
-			const refreshToken = params.get("refresh_token") || "";
 			await supabase.auth
 				.setSession({
 					access_token: accessToken,
@@ -40,3 +37,11 @@ export const handleOAuthSignIn = async (provider: Provider) => {
 		WebBrowser.maybeCompleteAuthSession();
 	}
 };
+
+function getTokensFromUrl(url: string) {
+	const params = new URLSearchParams(url.split("#")[1]);
+	const accessToken = params.get("access_token") || "";
+	const refreshToken = params.get("refresh_token") || "";
+
+	return { accessToken, refreshToken };
+}

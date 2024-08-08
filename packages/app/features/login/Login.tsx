@@ -1,7 +1,7 @@
-import { Link } from "expo-router";
-import { Button, Text, View } from "react-native";
 import { handleOAuthSignIn } from "@vittles/app/utils/supabase/actions/actions";
 import { handleEmailSignIn } from "@vittles/app/utils/supabase/actions/shared";
+import { Link } from "expo-router";
+import { Button, Text, View } from "react-native";
 
 export const Login = (): React.ReactNode => {
 	return (

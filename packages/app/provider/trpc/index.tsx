@@ -1,9 +1,8 @@
-import type { AppRouter } from "@vittles/api/src/router";
-import { supabase } from "@vittles/app/utils/supabase/client";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
+import type { AppRouter } from "@vittles/api/src/router";
+import { supabase } from "@vittles/app/utils/supabase/client";
 import { replaceLocalhost } from "@vittles/app/utils/trpc/localhost";
 import { useState } from "react";
 import superjson from "superjson";
