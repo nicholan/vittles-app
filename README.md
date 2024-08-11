@@ -9,6 +9,7 @@
 - [Expo](https://expo.io)
 - [Expo Router](https://docs.expo.dev/routing/introduction/)
 - [NativeWind](https://www.nativewind.dev/)
+- [React Native Reusables](https://rnr-docs.vercel.app/)
 
 ### Backend
 

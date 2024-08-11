@@ -6,5 +6,5 @@
 		"noUncheckedIndexedAccess": true,
 		"baseUrl": "."
 	},
-	"include": ["**/*.ts", "**/*.tsx", "../../nativewind-env.d.ts", "tailwind.config.js"]
+	"include": ["**/*.ts", "**/*.tsx", "../../nativewind-env.d.ts", "../app/utils/hooks/useColorScheme.ts"]
 }

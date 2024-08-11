@@ -12,12 +12,15 @@
 		"format": "bun x @biomejs/biome format --write ./packages ./apps",
 		"lint": "bun x @biomejs/biome lint --write --unsafe ./packages ./apps",
 		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
-		"clean": "rm -f bun.lockb && rm -rf ./node_modules && rm -rf ./apps/expo/node_modules && rm -rf ./apps/expo/bun.lockb"
+		"clean": "rm -f bun.lockb && rm -rf ./node_modules && rm -rf ./apps/expo/node_modules && rm -rf ./apps/expo/bun.lockb",
+		"log:emulator": "react-native log-android",
+		"log:device": "adb logcat *:S ReactNative:V ReactNativeJS:V",
+		"connect:device": "adb connect 192.168.1.192:5555"
 	},
 	"devDependencies": {
-		"@types/react": "^18.3.3",
+		"@biomejs/biome": "^1.8.3",
 		"@types/bun": "latest",
-		"@biomejs/biome": "^1.8.3"
+		"@types/react": "~18.2.79"
 	},
 	"peerDependencies": {
 		"typescript": "^5.5.4"

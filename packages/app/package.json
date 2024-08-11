@@ -3,9 +3,12 @@
 	"version": "1.0.0",
 	"devDependencies": {
 		"@types/aes-js": "^3.1.4",
-		"@types/react": "^18.3.3"
+		"@types/react": "~18.2.79"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.9.0",
+		"react-hook-form": "^7.52.2",
+		"valibot": "^0.37.0",
 		"@react-native-async-storage/async-storage": "^1.24.0",
 		"@supabase/auth-helpers-react": "^0.5.0",
 		"@supabase/supabase-js": "^2.45.0",

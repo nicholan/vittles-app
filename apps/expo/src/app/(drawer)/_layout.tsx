@@ -1,7 +1,7 @@
 import { useSessionContext } from "@vittles/app/utils/hooks/useSessionContext";
 import { LoadingSpinner } from "@vittles/ui/src/components/spinner/Spinner";
 import { Drawer } from "expo-router/drawer";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "../../components/GestureHandlerRootView/GestureHandlerRootView";
 
 // Drawer accessible on every screen.
 export default function DrawerLayout() {
