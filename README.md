@@ -15,8 +15,8 @@
 
 - [Hono](https://hono.dev)
 - [Cloudflare Workers](https://workers.cloudflare.com)
-- [Cloudflare D1](https://developers.cloudflare.com/d1)
-- [SQLite](https://sqlite.org) 
+- [Xata](https://xata.io/)
+- [PostgreSQL](https://www.postgresql.org/) 
 - [Drizzle](https://orm.drizzle.team)
 
 ### Data Fetching

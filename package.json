@@ -4,6 +4,7 @@
 	"private": true,
 	"license": "ISC",
 	"scripts": {
+		"api:local": "cd packages/api && bun wrangler dev",
 		"android": "cd apps/expo && bun android",
 		"start": "cd apps/expo && bun start",
 		"start:tunnel": "cd apps/expo && bun start:tunnel",

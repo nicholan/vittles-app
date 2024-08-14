@@ -196,5 +196,13 @@ expo-env.d.ts
 
 # @end expo-cli
 
-# Builds
+# Other
 apps/expo/android
+apps/expo/src/app/(drawer)/color.tsx
+packages/app/providers/theme/indexLocalStorage.tsx
+packages/api/.dev.vars
+packages/api/seed
+packages/api/.wrangler
+packages/api/.xata
+packages/api/.env
+packages/api/src/migrate.ts
