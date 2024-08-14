@@ -10,5 +10,6 @@
 		"types": ["@cloudflare/workers-types", "bun-types"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx"
-	}
+	},
+	"include": ["index.ts", "drizzle.config.ts", "./src/**/*.ts", "./src**/*.tsx"]
 }

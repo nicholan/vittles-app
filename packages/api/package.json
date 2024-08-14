@@ -1,16 +1,18 @@
 {
 	"name": "@vittles/api",
 	"version": "1.0.0",
+	"main": "./index.ts",
+	"type": "module",
 	"scripts": {
-		"generate": "drizzle-kit generate:sqlite --schema=./src/db/schema.ts --out=./migrations",
-		"migrate": "wrangler d1 migrations apply production",
-		"migrate:local": "wrangler d1 migrations apply production --local",
-		"seed": "wrangler d1 execute production --file=./seed/seed.sql",
-		"seed:local": "wrangler d1 execute production --local --file=./seed/seed.sql",
+		"dev": "bun ./src/worker.ts",
+		"generate": "drizzle-kit generate --config=./drizzle.config.ts",
+		"migrate": "cd ./src && bun ./migrate.ts",
+		"seed": "cd ./src && bun ./seed.ts",
 		"studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"@hono/trpc-server": "^0.3.2",
+		"@neondatabase/serverless": "^0.9.4",
 		"@trpc/server": "^10.45.2",
 		"@tsndr/cloudflare-worker-jwt": "^2.5.3",
 		"drizzle-orm": "^0.33.0",
@@ -21,7 +23,10 @@
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20240725.0",
+		"postgres": "^3.4.4",
+		"dotenv": "^16.4.5",
 		"drizzle-kit": "^0.24.0",
+		"miniflare": "^3.20240806.0",
 		"wrangler": "^3.70.0"
 	}
 }

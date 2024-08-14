@@ -1,15 +1,9 @@
-import type { Config } from "drizzle-kit";
+import { defineConfig } from "drizzle-kit";
 
-export default {
+export default defineConfig({
+	dialect: "postgresql",
 	schema: "./src/db/schema.ts",
-	out: "./migrations",
-	dialect: "sqlite",
-	driver: "d1-http",
-	dbCredentials: {
-		accountId: "",
-		databaseId: "",
-		token: "",
-	},
-	verbose: false,
+	out: "./drizzle",
+	verbose: true,
 	strict: true,
-} satisfies Config;
+});

@@ -15,7 +15,7 @@
 
 - [Hono](https://hono.dev)
 - [Cloudflare Workers](https://workers.cloudflare.com)
-- [Xata](https://xata.io/)
+- [Neon](https://neon.tech/)
 - [PostgreSQL](https://www.postgresql.org/) 
 - [Drizzle](https://orm.drizzle.team)
 
