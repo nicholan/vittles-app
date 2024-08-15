@@ -1,6 +1,8 @@
+// Run this file with `bun run seed.ts <path-to-sql-file>`
+
 import postgres from "postgres";
 
-const path = "./db/seed/seed.sql";
+const path = Bun.argv[2];
 const file = Bun.file(path);
 
 // Connect to your PostgreSQL database

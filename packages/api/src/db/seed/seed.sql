@@ -14,28 +14,51 @@ VALUES
 -- Chambers
 INSERT INTO chambers (name, description)
 VALUES 
-('Travel Enthusiasts', 'A place to share travel experiences and tips.'),
-('Tech Innovators', 'Discuss the latest trends in technology.'),
-('Culinary Delights', 'Share recipes and food adventures.'),
-('Book Club', 'Discuss and review the latest reads.'),
-('Gamers Unite', 'A hub for all things gaming.'),
-('Nature Explorers', 'For those who love the great outdoors.'),
-('Photography Pros', 'A community for photographers to share their work.'),
-('Music Makers', 'A place to discuss and share music.'),
-('Fitness Fanatics', 'Connect with others who are passionate about fitness.');
+('travelenthusiasts', 'A place to share travel experiences and tips.'),
+('techinnovators', 'Discuss the latest trends in technology.'),
+('culinarydelights', 'Share recipes and food adventures.'),
+('bookclub', 'Discuss and review the latest reads.'),
+('gamersunite', 'A hub for all things gaming.'),
+('natureexplorers', 'For those who love the great outdoors.'),
+('photographypros', 'A community for photographers to share their work.'),
+('musicmakers', 'A place to discuss and share music.'),
+('fitnessfanatics', 'Connect with others who are passionate about fitness.');
 
 -- Posts
-INSERT INTO posts (title, content, author_id)
+INSERT INTO posts (title, content, author_id, chamber_name, slug)
 VALUES 
-('Top 10 Must-Visit Places in Europe', 'Europe is full of beautiful destinations. Here are my top 10...', 1),
-('The Future of AI', 'Artificial intelligence is transforming the world. Let''s explore...', 2),
-('Best Homemade Pizza Recipe', 'I have perfected the art of making pizza at home. Here''s how...', 3),
-('5 Must-Read Books of 2024', 'These are the books you can''t miss this year...', 4),
-('Top 10 Upcoming Games', 'Here''s a list of games to look out for in the coming months...', 5),
-('Hiking Tips for Beginners', 'If you''re new to hiking, these tips will help you get started...', 6),
-('How to Capture Stunning Landscape Photos', 'Learn the techniques for capturing breathtaking landscapes...', 7),
-('Songwriting 101', 'Here are some tips to improve your songwriting...', 8),
-('The Ultimate Home Workout Plan', 'Stay fit with this simple and effective home workout routine...', 9);
+-- Original Posts
+('Top 10 Must-Visit Places in Europe', 'Europe is full of beautiful destinations. Here are my top 10...', 1, 'travelenthusiasts', 'top-10-must-visit-places-in-europe-abc123'),
+('The Future of AI', 'Artificial intelligence is transforming the world. Let''s explore...', 2, 'techinnovators', 'the-future-of-ai-def456'),
+('Best Homemade Pizza Recipe', 'I have perfected the art of making pizza at home. Here''s how...', 3, 'culinarydelights', 'best-homemade-pizza-recipe-ghi789'),
+('5 Must-Read Books of 2024', 'These are the books you can''t miss this year...', 4, 'bookclub', '5-must-read-books-of-2024-jkl012'),
+('Top 10 Upcoming Games', 'Here''s a list of games to look out for in the coming months...', 5, 'gamersunite', 'top-10-upcoming-games-mno345'),
+('Hiking Tips for Beginners', 'If you''re new to hiking, these tips will help you get started...', 6, 'natureexplorers', 'hiking-tips-for-beginners-pqr678'),
+('How to Capture Stunning Landscape Photos', 'Learn the techniques for capturing breathtaking landscapes...', 7, 'photographypros', 'how-to-capture-stunning-landscape-photos-stu901'),
+('Songwriting 101', 'Here are some tips to improve your songwriting...', 8, 'musicmakers', 'songwriting-101-vwx234'),
+('The Ultimate Home Workout Plan', 'Stay fit with this simple and effective home workout routine...', 9, 'fitnessfanatics', 'the-ultimate-home-workout-plan-yza567'),
+
+-- Duplicated Posts
+('Top 10 Must-Visit Places in Europe', 'Europe is full of beautiful destinations. Here are my top 10...', 1, 'travelenthusiasts', 'top-10-must-visit-places-in-europe-bcd234'),
+('The Future of AI', 'Artificial intelligence is transforming the world. Let''s explore...', 2, 'techinnovators', 'the-future-of-ai-efg567'),
+('Best Homemade Pizza Recipe', 'I have perfected the art of making pizza at home. Here''s how...', 3, 'culinarydelights', 'best-homemade-pizza-recipe-hij890'),
+('5 Must-Read Books of 2024', 'These are the books you can''t miss this year...', 4, 'bookclub', '5-must-read-books-of-2024-klm345'),
+('Top 10 Upcoming Games', 'Here''s a list of games to look out for in the coming months...', 5, 'gamersunite', 'top-10-upcoming-games-nop678'),
+('Hiking Tips for Beginners', 'If you''re new to hiking, these tips will help you get started...', 6, 'natureexplorers', 'hiking-tips-for-beginners-qrt901'),
+('How to Capture Stunning Landscape Photos', 'Learn the techniques for capturing breathtaking landscapes...', 7, 'photographypros', 'how-to-capture-stunning-landscape-photos-uvw234'),
+('Songwriting 101', 'Here are some tips to improve your songwriting...', 8, 'musicmakers', 'songwriting-101-xyz567'),
+('The Ultimate Home Workout Plan', 'Stay fit with this simple and effective home workout routine...', 9, 'fitnessfanatics', 'the-ultimate-home-workout-plan-abc890'),
+
+-- More Duplicated Posts
+('Top 10 Must-Visit Places in Europe', 'Europe is full of beautiful destinations. Here are my top 10...', 1, 'travelenthusiasts', 'top-10-must-visit-places-in-europe-cde345'),
+('The Future of AI', 'Artificial intelligence is transforming the world. Let''s explore...', 2, 'techinnovators', 'the-future-of-ai-fgh678'),
+('Best Homemade Pizza Recipe', 'I have perfected the art of making pizza at home. Here''s how...', 3, 'culinarydelights', 'best-homemade-pizza-recipe-ijk901'),
+('5 Must-Read Books of 2024', 'These are the books you can''t miss this year...', 4, 'bookclub', '5-must-read-books-of-2024-mno234'),
+('Top 10 Upcoming Games', 'Here''s a list of games to look out for in the coming months...', 5, 'gamersunite', 'top-10-upcoming-games-opq567'),
+('Hiking Tips for Beginners', 'If you''re new to hiking, these tips will help you get started...', 6, 'natureexplorers', 'hiking-tips-for-beginners-rst890'),
+('How to Capture Stunning Landscape Photos', 'Learn the techniques for capturing breathtaking landscapes...', 7, 'photographypros', 'how-to-capture-stunning-landscape-photos-vwx345'),
+('Songwriting 101', 'Here are some tips to improve your songwriting...', 8, 'musicmakers', 'songwriting-101-yza678'),
+('The Ultimate Home Workout Plan', 'Stay fit with this simple and effective home workout routine...', 9, 'fitnessfanatics', 'the-ultimate-home-workout-plan-bcd901');
 
 -- Comments
 INSERT INTO comments (content, author_id, post_id)

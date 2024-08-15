@@ -1,7 +1,7 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { integer, pgTable, primaryKey, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-valibot";
-import { relations, sql } from "drizzle-orm";
 
 // Users
 export const users = pgTable("users", {
@@ -61,6 +61,8 @@ export const posts = pgTable("posts", {
 	authorId: integer("author_id")
 		.notNull()
 		.references(() => users.id),
+	chamberName: varchar("chamber_name", { length: 50 }).references(() => chambers.name),
+	slug: varchar("slug"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")
 		.defaultNow()
@@ -76,6 +78,10 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 		references: [users.id],
 	}),
 	comments: many(comments),
+	chamber: one(chambers, {
+		fields: [posts.chamberName],
+		references: [chambers.name],
+	}),
 }));
 
 // -------------------------------------------------------- //
@@ -85,8 +91,8 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 export const comments = pgTable("comments", {
 	id: serial("id").primaryKey(),
 	content: text("content").notNull(),
-	authorId: integer("author_id"),
-	postId: integer("post_id"),
+	authorId: integer("author_id").notNull(),
+	postId: integer("post_id").notNull(),
 	parentCommentId: integer("parent_comment_id"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")

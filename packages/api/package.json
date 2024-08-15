@@ -7,7 +7,7 @@
 		"dev": "bun ./src/worker.ts",
 		"generate": "drizzle-kit generate --config=./drizzle.config.ts",
 		"migrate": "cd ./src && bun ./migrate.ts",
-		"seed": "cd ./src && bun ./seed.ts",
+		"seed": "cd ./src && bun run ./seed.ts ./db/seed/seed.sql",
 		"studio": "drizzle-kit studio"
 	},
 	"dependencies": {
