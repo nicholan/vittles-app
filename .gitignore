@@ -205,4 +205,6 @@ packages/api/seed
 packages/api/.wrangler
 packages/api/.xata
 packages/api/.env
-packages/api/src/migrate.ts
+packages/api/wrangler.toml
+packages/api/drizzle
+packages/api/src/db/sql

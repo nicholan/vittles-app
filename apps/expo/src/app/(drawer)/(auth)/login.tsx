@@ -1,4 +1,4 @@
-import { Login } from "@vittles/app/features/login/Login";
+import { Login } from "@vittles/app";
 
 export default function LoginPage() {
 	return <Login />;

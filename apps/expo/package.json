@@ -3,7 +3,7 @@
 	"main": "expo-router/entry",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "expo start --clear --web",
+		"start": "expo start --clear",
 		"start:tunnel": "expo start --tunnel --clear",
 		"android": "expo run:android",
 		"prebuild": "expo prebuild --platform android --bun --clean",

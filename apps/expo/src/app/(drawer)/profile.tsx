@@ -1,5 +1,5 @@
-import { Profile } from "@vittles/app/features/profile/Profile";
-import { useSessionContext } from "@vittles/app/utils/hooks/useSessionContext";
+import { Profile } from "@vittles/app";
+import { useSessionContext } from "@vittles/app";
 import { Slot, useRouter } from "expo-router";
 import { useEffect } from "react";
 

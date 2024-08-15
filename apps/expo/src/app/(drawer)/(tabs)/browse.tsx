@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { Browse } from "@vittles/app";
 
 export default function BrowsePage() {
-	return (
-		<View>
-			<Text>Browse Page</Text>
-		</View>
-	);
+	return <Browse />;
 }

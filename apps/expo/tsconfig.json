@@ -10,6 +10,8 @@
 		"tailwind.config.js",
 		"metro.config.js",
 		".expo/types/**/*.ts",
-		"expo-env.d.ts"
+		"expo-env.d.ts",
+		"../../packages/app/src/providers/gesture-handler/index.tsx",
+		"../../packages/app/src/providers/gesture-handler/GestureHandlerRootView.web.tsx"
 	]
 }

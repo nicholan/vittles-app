@@ -7,6 +7,7 @@ export * from "./src/components/card/Card";
 export * from "./src/components/badge/Badge";
 export * from "./src/components/textarea/Textarea";
 export * from "./src/components/dialog/Dialog";
+export * from "./src/components/spinner/Spinner";
 
 export { Sun } from "./src/icons/Sun";
 export { MoonStar } from "./src/icons/MoonStar";

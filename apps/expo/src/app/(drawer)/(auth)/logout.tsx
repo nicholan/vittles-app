@@ -1,4 +1,4 @@
-import { Logout } from "@vittles/app/features/logout/Logout";
+import { Logout } from "@vittles/app";
 
 export default function LogoutPage() {
 	return <Logout />;

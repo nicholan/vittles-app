@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { Feed } from "@vittles/app";
 
 export default function SearchPage() {
-	return (
-		<View>
-			<Text>Search Page</Text>
-		</View>
-	);
+	return <Feed />;
 }
