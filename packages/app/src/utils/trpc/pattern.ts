@@ -23,3 +23,11 @@ export const success = {
 	isLoading: P.when((isLoading) => isLoading === false),
 	failureReason: P.when((status) => status === null),
 };
+
+export const idle = {
+	isIdle: P.when((isIdle) => isIdle === true),
+};
+
+export const pending = {
+	isPending: P.when((status) => status === "loading"),
+};

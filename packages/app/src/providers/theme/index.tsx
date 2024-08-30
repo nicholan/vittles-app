@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemeProvider as ThemeProviderOG } from "@react-navigation/native";
 import type { Theme } from "@react-navigation/native";
-import { NAV_THEME } from "@vittles/ui/src/utils/constants";
+import { NAV_THEME } from "@vittles/ui";
 import { useColorScheme } from "nativewind";
 import { useEffect } from "react";
 import { Appearance, Platform } from "react-native";

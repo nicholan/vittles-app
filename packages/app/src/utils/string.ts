@@ -1,27 +1,64 @@
 export function timeAgo(postDate: Date): string {
 	const now = new Date();
 	const secondsAgo = Math.floor((now.getTime() - postDate.getTime()) / 1000);
+	const daysAgo = Math.floor(secondsAgo / (24 * 60 * 60));
 
-	const intervals: Record<string, number> = {
-		year: 365 * 24 * 60 * 60,
-		month: 30 * 24 * 60 * 60,
-		week: 7 * 24 * 60 * 60,
-		day: 24 * 60 * 60,
-		hour: 60 * 60,
-		minute: 60,
-		second: 1,
+	const formatDate = (date: Date) => {
+		const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
+		return new Intl.DateTimeFormat("en-US", options).format(date);
 	};
 
-	for (const interval in intervals) {
-		const value = Math.floor(secondsAgo / intervals[interval]);
-		if (value > 1) {
-			return `${value} ${interval}s ago`;
-		}
-		if (value === 1) {
-			return `${value} ${interval} ago`;
-		}
+	const formatFullDate = (date: Date) => {
+		const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" };
+		return new Intl.DateTimeFormat("en-US", options).format(date);
+	};
+
+	if (daysAgo < 1) {
+		if (secondsAgo < 60) return `${Math.floor(secondsAgo)}s`;
+		if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)}m`;
+		return `${Math.floor(secondsAgo / 3600)}h`;
 	}
 
-	// Fallback for cases where no interval matches
-	return "just now";
+	const postYear = postDate.getFullYear();
+	const currentYear = now.getFullYear();
+	return daysAgo < 365 && postYear === currentYear ? formatDate(postDate) : formatFullDate(postDate);
+}
+
+export function formatCount(count: number): string {
+	if (count < 1000) {
+		return count.toString();
+	}
+	if (count < 1000000) {
+		return `${(count / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+	}
+	return `${(count / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
+}
+
+export function shortenName(name: string, maxLength = 15): string {
+	if (name.length <= maxLength) {
+		return name;
+	}
+
+	return `${name.slice(0, maxLength)}...`;
+}
+
+export function formatDate(dateString: Date) {
+	const date = new Date(dateString);
+
+	const timeFormatter = new Intl.DateTimeFormat("en-US", {
+		hour: "numeric",
+		minute: "numeric",
+		hour12: true,
+	});
+
+	const dateFormatter = new Intl.DateTimeFormat("en-US", {
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+	});
+
+	const formattedTime = timeFormatter.format(date);
+	const formattedDate = dateFormatter.format(date);
+
+	return `${formattedTime} · ${formattedDate}`;
 }

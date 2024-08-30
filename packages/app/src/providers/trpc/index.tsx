@@ -24,7 +24,7 @@ export const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({ children
 						retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 30000), // Exponential backoff for retries
 					},
 					mutations: {
-						retry: 1, // Retry failed mutations once
+						retry: 0, // Do not retry mutations
 					},
 				},
 			}),

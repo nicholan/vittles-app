@@ -1,16 +1,30 @@
-import { Text } from "@vittles/ui";
-import { View } from "react-native";
-import { useUser } from "../../hooks/useUser";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TabsFlatlist } from "../../features/tabs-flatlist/TabsFlatlist";
+import { UserProfileCard } from "../../features/user-profile-card/UserProfileCard";
+import { trpc } from "../../utils/trpc/trpc";
+import { ScrollView } from "react-native";
 
-export const Profile = (): React.ReactNode => {
-	const { email, created_at, last_sign_in_at, id } = useUser();
+type ProfileProps = {
+	username: string;
+};
+
+export const Profile = ({ username }: ProfileProps) => {
+	const currentUser = trpc.user.getCurrentUser.useQuery();
+	const isOwnProfile = currentUser.isSuccess && currentUser.data?.username === username;
+
+	const queryDispatchTable = {
+		posts: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
+		replies: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
+		media: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
+		likes: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
+	};
 
 	return (
-		<View className="flex-1 items-center justify-center gap-2">
-			<Text>Id: {id}</Text>
-			<Text>Email: {email}</Text>
-			<Text>Created at: {created_at}</Text>
-			<Text>Last online: {last_sign_in_at}</Text>
-		</View>
+		<SafeAreaView className="flex-1 flex-col">
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<UserProfileCard queryType={isOwnProfile ? "current" : "byUsername"} username={username} />
+				<TabsFlatlist queryDispatchTable={queryDispatchTable} queryValue={{ username }} />
+			</ScrollView>
+		</SafeAreaView>
 	);
 };
