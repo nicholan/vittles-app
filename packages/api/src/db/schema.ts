@@ -1,134 +1,121 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { relations, sql } from "drizzle-orm";
-import { integer, pgTable, primaryKey, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-valibot";
+import { boolean, integer, pgTable, serial, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 // Users
 export const users = pgTable("users", {
-	id: serial("id").primaryKey(),
-	authId: varchar("auth_id", { length: 255 }).notNull().unique(),
-	username: varchar("username", { length: 50 }).notNull().unique(),
-	email: varchar("email", { length: 255 }).notNull().unique(),
+	id: uuid("id").primaryKey(),
+	username: varchar("username", { length: 15 }).unique().notNull(),
+	displayName: varchar("display_name", { length: 50 }).notNull(),
 	bio: varchar("bio", { length: 255 }),
-	profilePictureUrl: varchar("profile_picture_url", { length: 255 }),
+	follows: integer("follows").notNull().default(0),
+	followedBy: integer("followed_by").notNull().default(0),
+	profilePictureUrl: text("profile_picture_url"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")
+		.notNull()
 		.defaultNow()
 		.$onUpdate(() => sql`now()`),
 });
 
-// User can have many posts, user can subscribe to many chambers
+// User can have many posts
 export const usersRelations = relations(users, ({ many }) => ({
 	posts: many(posts),
-	userChambers: many(usersToChambers),
 }));
-
-// A join table for users-chambers.
-export const usersToChambers = pgTable(
-	"users_to_chambers",
-	{
-		userId: integer("user_id")
-			.notNull()
-			.references(() => users.id),
-		chamberId: integer("chamber_id")
-			.notNull()
-			.references(() => chambers.id),
-	},
-	(table) => ({
-		pk: primaryKey({ columns: [table.chamberId, table.userId] }),
-	}),
-);
-
-// Users-chambers join table many-to-many relations.
-export const usersToChambersRelations = relations(usersToChambers, ({ one }) => ({
-	user: one(users, {
-		fields: [usersToChambers.userId],
-		references: [users.id],
-	}),
-	chamber: one(chambers, {
-		fields: [usersToChambers.chamberId],
-		references: [chambers.id],
-	}),
-}));
-
-// -------------------------------------------------------- //
 
 // Posts
 export const posts = pgTable("posts", {
 	id: serial("id").primaryKey(),
-	title: varchar("title", { length: 255 }).notNull(),
-	content: text("content").notNull(),
-	authorId: integer("author_id")
+	content: text("content"),
+	files: uuid("files").array().notNull().default(sql`ARRAY[]::uuid[]`),
+	userId: uuid("user_id")
 		.notNull()
 		.references(() => users.id),
-	chamberName: varchar("chamber_name", { length: 50 }).references(() => chambers.name),
-	slug: varchar("slug"),
+	parentPostId: integer("parent_post_id"),
+	replyToPostId: integer("reply_to_post_id"),
+	favorited: integer("favorited").notNull().default(0),
+	reposted: integer("reposted").notNull().default(0),
+	viewed: integer("viewed").notNull().default(0),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at")
+		.notNull()
 		.defaultNow()
 		.$onUpdate(() => sql`now()`),
 });
 
-// A post can have one author (posts.authorId references users.id).
-// A post can have many comments.
-// TODO: Is it correct?
-export const postsRelations = relations(posts, ({ one, many }) => ({
-	author: one(users, {
-		fields: [posts.authorId],
-		references: [users.id],
-	}),
-	comments: many(comments),
-	chamber: one(chambers, {
-		fields: [posts.chamberName],
-		references: [chambers.name],
-	}),
-}));
-
-// -------------------------------------------------------- //
-
-// Comments
-// To get the top-level comments for a specific post, you can query comments where parent_comment_id is NULL.
-export const comments = pgTable("comments", {
-	id: serial("id").primaryKey(),
-	content: text("content").notNull(),
-	authorId: integer("author_id").notNull(),
-	postId: integer("post_id").notNull(),
-	parentCommentId: integer("parent_comment_id"),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
-		.defaultNow()
-		.$onUpdate(() => sql`now()`),
-});
-
-// A comment can belong to one post (comments.postId references posts.id).
-// A comment can be a comment to another comment. (comments.parentCommentId references comments.id).
-export const commentsRelations = relations(comments, ({ one }) => ({
-	post: one(posts, {
-		fields: [comments.postId],
+export const postsRelations = relations(posts, ({ one }) => ({
+	parentPost: one(posts, {
+		fields: [posts.parentPostId],
 		references: [posts.id],
 	}),
-	parentComment: one(comments, {
-		fields: [comments.parentCommentId],
-		references: [comments.id],
-	}),
 }));
 
-// -------------------------------------------------------- //
-
-// Chambers are sub-communties that user can subscribe to and create posts in.
-export const chambers = pgTable("chambers", {
-	id: serial("id").primaryKey(),
-	name: varchar("name", { length: 50 }).notNull().unique(),
-	description: text("description"),
+export const images = pgTable("images", {
+	id: uuid("id").primaryKey(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id),
+	postId: integer("post_id")
+		.notNull()
+		.references(() => posts.id),
+	url: text("url").notNull(),
+	key: text("key").notNull(),
+	extension: text("extension").notNull(),
+	mime: text("mime").notNull(),
+	width: integer("width").notNull(),
+	height: integer("height").notNull(),
+	size: integer("size").notNull(),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
-		.defaultNow()
-		.$onUpdate(() => sql`now()`),
 });
 
-export const chamberRelations = relations(chambers, ({ many }) => ({
-	users: many(usersToChambers),
-}));
+export const reblogs = pgTable("reblogs", {
+	id: serial("id").primaryKey(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id),
+	postId: integer("post_id")
+		.notNull()
+		.references(() => posts.id),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const favorites = pgTable("favorites", {
+	id: serial("id").primaryKey(),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id),
+	postId: integer("post_id")
+		.notNull()
+		.references(() => posts.id),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const notifications = pgTable("notifications", {
+	id: serial("id").primaryKey(),
+	notifiedId: uuid("user_id")
+		.notNull()
+		.references(() => users.id),
+	postId: integer("post_id")
+		.notNull()
+		.references(() => posts.id),
+	notifierId: uuid("notifier_id")
+		.notNull()
+		.references(() => users.id),
+	type: text("type").notNull(),
+	read: boolean("read").notNull().default(false),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const follows = pgTable("follows", {
+	id: serial("id").primaryKey(),
+	followedId: uuid("followed_id")
+		.notNull()
+		.references(() => users.id),
+	followerId: uuid("follower_id")
+		.notNull()
+		.references(() => users.id),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
 
 // TODO Versions >= 0.31 of Valibot breaks drizzle-valibot schema inferring.
 // Reverting to 0.30 fixes this, but without valibot pipe() function.
@@ -145,12 +132,4 @@ export type InserPost = InferInsertModel<typeof posts>;
 // export const insertPostchema = createInsertSchema(posts);
 // export const selectPostSchema = createSelectSchema(posts);
 
-export type Comment = InferSelectModel<typeof comments>;
-export type InserComment = InferInsertModel<typeof comments>;
-// export const insertCommentchema = createInsertSchema(comments);
-// export const selectCommentSchema = createSelectSchema(comments);
-
-export type Chamber = InferSelectModel<typeof chambers>;
-export type InserChamber = InferInsertModel<typeof chambers>;
-// export const insertChamberchema = createInsertSchema(chambers);
-// export const selectChamberSchema = createSelectSchema(chambers);
+export type Images = InferSelectModel<typeof images>;

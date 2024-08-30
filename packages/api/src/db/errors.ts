@@ -20,7 +20,7 @@ export function throwTRPCErrorOnCondition(
 
 const errorMessages: Record<ErrorType, (name: string) => string> = {
 	NOT_FOUND: (name) => `${name} not found or does not exist.`,
-	CONFLICT: (name) => `${name} already exists.`,
+	CONFLICT: (name) => `${name} is already in use.`,
 	BAD_REQUEST: (name) => `Bad request for ${name}.`,
 	FORBIDDEN: (name) => `You do not have permission to access ${name}.`,
 	UNAUTHORIZED: (name) => `You are not authorized to access ${name}.`,

@@ -11,6 +11,11 @@ export type Bindings = {
 	SUPABASE_URL: string;
 	SUPABASE_ANON_KEY: string;
 	NEON_DATABASE_URL: string;
+	R2_BUCKET_NAME: string;
+	R2_SECRET_ACCESS_KEY: string;
+	R2_ACCESS_KEY_ID: string;
+	R2_WEB_ENDPOINT: string;
+	ACCOUNT_ID: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
