@@ -8,7 +8,11 @@ export * from "./src/components/badge/Badge";
 export * from "./src/components/textarea/Textarea";
 export * from "./src/components/dialog/Dialog";
 export * from "./src/components/spinner/Spinner";
+export * from "./src/components/avatar/Avatar";
+export * from "./src/components/typography/Typography";
+export * from "./src/components/tabs/Tabs";
 
-export { Sun } from "./src/icons/Sun";
-export { MoonStar } from "./src/icons/MoonStar";
-export { X } from "./src/icons/X";
+export * as Dropdown from "./src/components/dropdown-menu/";
+
+export * from "./src/icons";
+export * from "./src/utils/constants";

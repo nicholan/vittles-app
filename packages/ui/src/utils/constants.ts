@@ -15,4 +15,27 @@ export const NAV_THEME = {
 		primary: "hsl(0 0% 98%)", // primary
 		text: "hsl(0 0% 98%)", // foreground
 	},
-};
+} as const;
+
+// For making cards with images responsive.
+export const CARDS = {
+	MAIN: {
+		maxWidth: 576, // max-w-xl
+		marginX: 12,
+		imageSpacing: 5,
+	},
+} as const;
+
+// For calculating drawer-main-sidebar layout on web.
+export const SIDEBAR = {
+	maxWidth: 384,
+} as const;
+
+export const DRAWER = {
+	minWidth: 72,
+} as const;
+
+export const BREAKPOINTS = {
+	mainWidth: 1280,
+	sidebarScreenSize: 1000,
+} as const;
