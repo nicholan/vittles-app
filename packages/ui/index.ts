@@ -11,6 +11,7 @@ export * from "./src/components/spinner/Spinner";
 export * from "./src/components/avatar/Avatar";
 export * from "./src/components/typography/Typography";
 export * from "./src/components/tabs/Tabs";
+export * from "./src/components/hover-card/HoverCard";
 
 export * as Dropdown from "./src/components/dropdown-menu/";
 

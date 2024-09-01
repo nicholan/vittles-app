@@ -2,7 +2,6 @@ import { useUser as useUserOg } from "@supabase/auth-helpers-react";
 import { trpc } from "../utils/trpc/trpc";
 import type { InferQueryResult } from "@trpc/react-query/dist/utils/inferReactQueryProcedure";
 import type { AppRouter } from "@vittles/api";
-import { match } from "ts-pattern";
 
 type UserQuery = InferQueryResult<AppRouter["user"]["getCurrentUser"]>;
 

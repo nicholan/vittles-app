@@ -1,11 +1,11 @@
 import type { ListRenderItem } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { CustomFlatList } from "../../features/flatlist/FlatList";
 import { PostCardMain } from "../../features/post-card/PostCardMain";
 import { PostCard } from "../../features/post-card/PostCard";
 import { match } from "ts-pattern";
 import { ScrollView } from "react-native";
 import { trpc } from "../../utils/trpc/trpc";
+import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
 
 const queryDispatchTable = {
 	post: (postId: number) => trpc.post.getPost.useQuery({ postId }),
@@ -36,11 +36,11 @@ export function Post({ queryType, postId }: PostProps) {
 		.otherwise(() => null);
 
 	return (
-		<SafeAreaView className="flex-1">
+		<MainColumnsLayout>
 			<ScrollView showsVerticalScrollIndicator={false} className="">
 				{layout}
 				<CustomFlatList data={commentsQuery} renderItem={renderItem} />
 			</ScrollView>
-		</SafeAreaView>
+		</MainColumnsLayout>
 	);
 }

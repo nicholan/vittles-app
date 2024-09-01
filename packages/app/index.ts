@@ -5,7 +5,7 @@ export { Post } from "./src/pages/post/Post";
 export { NewPost } from "./src/features/post-create/PostCreateForm";
 export { SignInSignUp } from "./src/pages/sign-in-sign-up/SignInSignUp";
 export { Sidebar } from "./src/features/sidebar/Sidebar";
-export { UserNavCard } from "./src/features/user-nav-card/UserNavCard";
+export { UserCard } from "./src/features/user-card/UserCard";
 
 export { Provider } from "./src/providers/index";
 export { supabase } from "./src/auth/supabase/client";

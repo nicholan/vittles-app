@@ -95,27 +95,26 @@ const Content = ({ content, files, postId }: ContentProps) => (
 );
 
 const Header = ({ username, displayName, profilePictureUrl }: HeaderProps) => (
-	<CardHeader className="p-0">
-		<CardTitle className="flex flex-row gap-2 items-center p-0">
-			<Avatar alt={`${username}'s Avatar`}>
-				<AvatarImage
-					source={{
-						uri: profilePictureUrl ?? "https://avatars.githubusercontent.com/u/63797719?v=4",
-					}}
-				/>
-				<AvatarFallback>
-					<Text>ZN</Text>
-				</AvatarFallback>
-			</Avatar>
-			<View className="flex flex-col">
-				<Text className="font-bold">{displayName}</Text>
+	<CardHeader className="p-0 m-0">
+		<View className="flex-1 flex-row">
+			<View className="mr-[8px]">
+				<Avatar alt={`${username}'s Avatar`}>
+					<AvatarImage
+						source={{
+							uri: profilePictureUrl ?? "https://avatars.githubusercontent.com/u/63797719?v=4",
+						}}
+					/>
+				</Avatar>
+			</View>
+			<View className="flex-1 flex-col">
+				<Text className="font-bold leading-tight">{displayName}</Text>
 				<Link href={`/${username}`} asChild>
 					<Pressable>
 						<Muted>@{username}</Muted>
 					</Pressable>
 				</Link>
 			</View>
-		</CardTitle>
+		</View>
 	</CardHeader>
 );
 
@@ -175,7 +174,7 @@ const Footer = ({
 						<Muted className="font-bold">@{username}</Muted>
 					</Link>
 				</Muted>
-				<NewPost submitButtonText="Reply" placeHolderText="Post your reply" />
+				<NewPost submitButtonText="Reply" placeHolderText="Post your reply" parentPostId={parentPostId} />
 			</View>
 		</CardFooter>
 	);

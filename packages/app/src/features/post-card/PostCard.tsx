@@ -1,26 +1,14 @@
 import type { ImageDetails } from "@vittles/api";
-import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
-	Button,
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-	Muted,
-	Text,
-} from "@vittles/ui";
+import { Avatar, AvatarImage, Button, Card, CardContent, CardFooter, CardHeader, Muted, Text } from "@vittles/ui";
 import { Heart, MessageSquare, Repeat2, Reply as ReplyIcon } from "@vittles/ui";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useState } from "react";
-import { Platform, Pressable, View } from "react-native";
+import { Platform, View } from "react-native";
 import { formatCount, timeAgo } from "../../utils/string";
 import { trpc } from "../../utils/trpc/trpc";
 import { CreatePostModal } from "../post-create/PostCreateModal";
-import { useWindowDimensions } from "react-native";
+import { UserCard } from "../user-card/UserCard";
 
 type CardProps = {
 	content: string;
@@ -28,6 +16,9 @@ type CardProps = {
 	postId: number;
 	username: string;
 	displayName: string;
+	bio: string;
+	follows: number;
+	followedBy: number;
 	files: ImageDetails[];
 	profilePictureUrl: string;
 	reblogsCount: number;
@@ -50,12 +41,15 @@ type FooterProps = Pick<
 >;
 
 type ContentProps = Pick<CardProps, "content" | "files" | "postId">;
-type HeaderProps = Pick<CardProps, "username" | "displayName" | "profilePictureUrl">;
+type HeaderProps = Pick<CardProps, "username" | "displayName" | "profilePictureUrl" | "follows" | "followedBy" | "bio">;
 
 export const PostCard = ({
 	content,
 	username,
 	displayName,
+	follows,
+	followedBy,
+	bio,
 	postId,
 	createdAt,
 	files,
@@ -68,20 +62,24 @@ export const PostCard = ({
 }: CardProps) => {
 	return (
 		<Card className={"w-full max-w-[576px] rounded-none border-0 shadow-none flex flex-row p-[12px]"}>
-			<View className="pr-3">
+			<View className="mr-[8px]">
 				<Avatar alt={`${username}'s Avatar`}>
 					<AvatarImage
 						source={{
 							uri: profilePictureUrl ?? "https://avatars.githubusercontent.com/u/63797719?v=4",
 						}}
 					/>
-					<AvatarFallback>
-						<Text>ZN</Text>
-					</AvatarFallback>
 				</Avatar>
 			</View>
 			<View className="flex-1">
-				<Header username={username} displayName={displayName} profilePictureUrl={profilePictureUrl} />
+				<Header
+					username={username}
+					displayName={displayName}
+					profilePictureUrl={profilePictureUrl}
+					follows={follows}
+					followedBy={followedBy}
+					bio={bio}
+				/>
 				<Content content={content} files={files} postId={postId} />
 				<Footer
 					username={username}
@@ -109,18 +107,11 @@ const Content = ({ content, files, postId }: ContentProps) => (
 	</Link>
 );
 
-const Header = ({ username, displayName }: HeaderProps) => (
+const Header = (props: HeaderProps) => (
 	<CardHeader className="p-0 m-0">
-		<CardTitle className="flex flex-row gap-2 items-center">
-			<View className="flex flex-col">
-				<Text className="font-bold">{displayName}</Text>
-				<Link href={`/${username}`} asChild>
-					<Pressable>
-						<Muted>@{username}</Muted>
-					</Pressable>
-				</Link>
-			</View>
-		</CardTitle>
+		<View className="flex flex-row">
+			<UserCard {...props} variant="cardNoAvatarHover" />
+		</View>
 	</CardHeader>
 );
 

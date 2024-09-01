@@ -8,7 +8,7 @@ import { imageDimensionsFromData } from "image-dimensions";
 import * as v from "valibot";
 import type { ApiContextProps } from "../context";
 import { throwTRPCErrorOnCondition } from "../db/errors";
-import { favorites, images, posts, reblogs, users } from "../db/schema";
+import { favorites, follows, images, posts, reblogs, users } from "../db/schema";
 import { protectedProcedure, router } from "../trpc";
 import { streamToBuffer } from "../utils/streamToBuffer";
 
@@ -291,6 +291,9 @@ async function getPosts(ctx: ApiContextProps, where: SQL, limit = 20) {
 			parentPostId: posts.parentPostId,
 			content: posts.content,
 			files: posts.files,
+			follows: users.follows,
+			followedBy: users.followedBy,
+			bio: users.bio,
 			createdAt: posts.createdAt,
 			updatedAt: posts.updatedAt,
 			username: users.username,

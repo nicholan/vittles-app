@@ -1,6 +1,6 @@
-import { SafeAreaView } from "react-native-safe-area-context";
 import { TabsFlatlist } from "../../features/tabs-flatlist/TabsFlatlist";
 import { trpc } from "../../utils/trpc/trpc";
+import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
 
 export function Home() {
 	const queryDispatchTable = {
@@ -9,8 +9,8 @@ export function Home() {
 	};
 
 	return (
-		<SafeAreaView className="flex-1 flex-col max-w-xl">
+		<MainColumnsLayout>
 			<TabsFlatlist queryDispatchTable={queryDispatchTable} />
-		</SafeAreaView>
+		</MainColumnsLayout>
 	);
 }

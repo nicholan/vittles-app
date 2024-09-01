@@ -55,8 +55,6 @@ type PostProps = {
 	placeHolderText?: string;
 };
 
-const imageMargin = 3;
-
 export const NewPost = ({
 	parentPostId = null,
 	replyToPostId = null,
@@ -109,42 +107,6 @@ export const NewPost = ({
 		},
 	);
 
-	const pickImage = async () => {
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsMultipleSelection: true,
-			selectionLimit: 4,
-			aspect: [1, 1],
-			quality: 1,
-		});
-
-		if (result.canceled) return;
-
-		try {
-			const images = v.parse(v.array(ImagePickerAssetSchema), result.assets);
-			if (images.length > 4) {
-				return setError("files", {
-					type: "manual",
-					message: "You can only select up to 4 files.",
-				});
-			}
-
-			clearErrors(["files", "content"]);
-			setValue("files", images);
-		} catch (e) {
-			setError("files", {
-				type: "manual",
-				message: "Invalid file format. Please select a JPEG, PNG, GIF, WEBP, or BMP file.",
-			});
-		}
-	};
-
-	const fetchMediaFromUri = async (uri: string) => {
-		const response = await fetch(uri);
-		const blob = await response.blob();
-		return blob;
-	};
-
 	const onSubmit = async ({ content }: PostSchema) => {
 		if (create.isLoading || isSubmitting) return;
 
@@ -177,6 +139,36 @@ export const NewPost = ({
 		create.mutate({ content: content.length > 0 ? content : null, files: attachments, parentPostId: parentPostId });
 	};
 
+	const pickImage = async () => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsMultipleSelection: true,
+			selectionLimit: 4,
+			aspect: [1, 1],
+			quality: 1,
+		});
+
+		if (result.canceled) return;
+
+		try {
+			const images = v.parse(v.array(ImagePickerAssetSchema), result.assets);
+			if (images.length > 4) {
+				return setError("files", {
+					type: "manual",
+					message: "You can only select up to 4 files.",
+				});
+			}
+
+			clearErrors(["files", "content"]);
+			setValue("files", images);
+		} catch (e) {
+			setError("files", {
+				type: "manual",
+				message: "Invalid file format. Please select a JPEG, PNG, GIF, WEBP, or BMP file.",
+			});
+		}
+	};
+
 	const scrollToIndex = (index: number) => {
 		// Scroll the image preview list to the selected index.
 		flatListRef.current?.scrollToIndex({ index, animated: true });
@@ -198,7 +190,6 @@ export const NewPost = ({
 		setValue("files", newFiles);
 	};
 
-	// TODO: Animate buttons, fade in/out?
 	const scrollToListEndButton = filesField.length > 2 && (
 		<Button
 			onPress={() => scrollToIndex(filesField.length - 1)}
@@ -330,4 +321,10 @@ export const NewPost = ({
 		.otherwise(() => <LoadingSpinner />);
 
 	return <SafeAreaView className="flex-1">{layout}</SafeAreaView>;
+};
+
+const fetchMediaFromUri = async (uri: string) => {
+	const response = await fetch(uri);
+	const blob = await response.blob();
+	return blob;
 };
