@@ -1,6 +1,6 @@
+import { H2, Text } from "@vittles/ui";
 import { Link } from "expo-router";
 import { View } from "react-native";
-import { Text } from "@vittles/ui";
 
 export default function NotFoundScreen() {
 	return (

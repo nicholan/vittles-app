@@ -208,3 +208,7 @@ packages/api/.env
 packages/api/wrangler.toml
 packages/api/drizzle
 packages/api/src/db/sql
+packages/api/src/file-upload.ts
+packages/api/src/worker-mpu.ts
+cv.tex
+packages/api/src/routes/upload.ts
