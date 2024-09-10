@@ -37,9 +37,8 @@ export const createContext = async (env: Bindings, opts: FetchCreateContextFnOpt
 		user = existingUser[0];
 	} else {
 		// Create new user in database with random username if user record does not exist.
-		const username = generateRandomName();
-		const displayName = generateRandomName();
-		const newUser = await db.insert(users).values({ id: auth.id, username, displayName }).returning();
+		const names = generateRandomName();
+		const newUser = await db.insert(users).values({ id: auth.id, username: names, displayName: names }).returning();
 		user = newUser[0];
 	}
 
