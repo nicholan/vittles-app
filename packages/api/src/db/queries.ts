@@ -9,7 +9,7 @@ export async function getInteractionsAndMedia<T extends { postId: number }>(ctx:
 
 	const [interactions, postsWithMedia] = await Promise.all([
 		countInteractions(ctx, postIds),
-		withMedia(ctx, postIds),
+		withMedia(ctx, postIds, "postId"),
 	]);
 
 	const interactionsMap = new Map(interactions.map((interaction) => [interaction.postId, interaction]));
@@ -66,42 +66,37 @@ async function countInteractions(ctx: ApiContextProps, postIds: number[]) {
 	}));
 }
 
-// Function to fetch and presign all image URLs for a given post array.
-async function withMedia(ctx: ApiContextProps, postIds: number[]) {
-	if (postIds.length === 0) return [];
+// These are columns in images table.
+type ImageFields = "postId" | "messageId";
 
-	// Query all images related to the post IDs
-	const allImages = await ctx.db.select().from(images).where(inArray(images.postId, postIds));
+// Function to fetch and presign all image URLs for a given id (post/message/...) array from the images table.
+export async function withMedia(ctx: ApiContextProps, idArr: number[], field: ImageFields) {
+	if (idArr.length === 0) return [];
+
+	// Query all images related to the given IDs.
+	const allImages = await ctx.db.select().from(images).where(inArray(images[field], idArr));
 
 	// Sign all R2 bucket URLs in one go
 	const signed = await signUrls(ctx, allImages);
 
 	const imgs = signed.map((image) => {
-		const { size, url, width, height, mime, postId, id } = image;
-		return {
-			id,
-			size,
-			url,
-			width,
-			height,
-			mime,
-			postId,
-		};
+		const { createdAt, updatedAt, extension, userId, key, ...props } = image;
+		return { ...props };
 	});
 
-	// Create a map of postId to images
-	const imagesMap = new Map<number, typeof imgs>();
+	// Create a map of field ids to images
+	const imagesMap = new Map<number | null, typeof imgs>();
 
 	for (const image of imgs) {
-		// Get the array of images for the postId, or initialize it if it doesn't exist
-		const postImages = imagesMap.get(image.postId) || [];
-		postImages.push(image);
-		imagesMap.set(image.postId, postImages);
+		// Get the array of images for the id, or initialize it if it doesn't exist
+		const arr = imagesMap.get(image[field]) || [];
+		arr.push(image);
+		imagesMap.set(image[field], arr);
 	}
 
-	return postIds.map((postId) => ({
-		postId,
-		files: imagesMap.get(postId) || [],
+	return idArr.map((id) => ({
+		[field]: id,
+		files: imagesMap.get(id) || [],
 	}));
 }
 

@@ -57,9 +57,8 @@ export const images = pgTable("images", {
 	userId: uuid("user_id")
 		.notNull()
 		.references(() => users.id),
-	postId: integer("post_id")
-		.notNull()
-		.references(() => posts.id),
+	postId: integer("post_id").references(() => posts.id),
+	messageId: integer("message_id").references(() => messages.id),
 	url: text("url").notNull(),
 	key: text("key").notNull(),
 	extension: text("extension").notNull(),
@@ -146,7 +145,7 @@ export const messages = pgTable("messages", {
 
 export const messageReads = pgTable("message_reads", {
 	id: serial("id").primaryKey(),
-	messageId: uuid("message_id")
+	messageId: integer("message_id")
 		.notNull()
 		.references(() => messages.id),
 	userId: uuid("user_id")

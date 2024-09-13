@@ -1,11 +1,13 @@
 import { eq, sql, count, desc, asc, and, isNull, inArray } from "drizzle-orm";
 import * as v from "valibot";
 import { throwTRPCErrorOnCondition } from "../db/errors";
-import { users, threads, messages, usersToThreads, messageReads } from "../db/schema";
+import { users, threads, messages, usersToThreads, messageReads, images } from "../db/schema";
 import { protectedProcedure, router } from "../trpc";
 import type { ApiContextProps } from "../context";
 import { handleFileUpload } from "./file";
 import type { FileUploadProps } from "./file";
+import { withMedia } from "../db/queries";
+import type { User } from "../db/schema";
 
 const insertMessageSchema = v.pipe(
 	v.object({
@@ -58,6 +60,7 @@ export const messageRouter = router({
 		};
 	}),
 
+	// Get message threads for user inbox.
 	getMessageThreads: protectedProcedure.query(async ({ ctx }) => {
 		const results = await ctx.db
 			.select({
@@ -112,6 +115,51 @@ export const messageRouter = router({
 
 		return threadsWithParticipants;
 	}),
+
+	// Get messages in a thread.
+	getThread: protectedProcedure
+		.input((raw) => v.parse(v.object({ threadId: v.number() }), raw))
+		.query(async ({ ctx, input }) => {
+			const thread = await ctx.db
+				.select({
+					senderId: messages.senderId,
+					messageId: messages.id,
+					displayName: users.displayName,
+					username: users.username,
+					profilePictureUrl: users.profilePictureUrl,
+					follows: users.follows,
+					followedBy: users.followedBy,
+					bio: users.bio,
+					content: messages.content,
+					files: messages.files,
+					replyToMessageId: messages.replyToMessageId,
+					createdAt: messages.createdAt,
+					updatedAt: messages.updatedAt,
+					deleted: messages.deleted,
+				})
+				.from(messages)
+				.innerJoin(users, eq(messages.senderId, users.id))
+				.innerJoin(threads, eq(threads.id, input.threadId))
+				.where(eq(messages.threadId, input.threadId))
+				.orderBy(asc(messages.createdAt))
+				.limit(30);
+
+			const messageIds = thread.map((message) => message.messageId);
+			const messagesWithMedia = await withMedia(ctx, messageIds, "messageId");
+
+			const merged = thread.map(({ senderId, ...message }) => {
+				return {
+					...message,
+					sentByCurrentUser: senderId === ctx.user.id,
+					content: message.deleted ? null : message.content,
+					files: message.deleted
+						? null
+						: messagesWithMedia.find((media) => media.messageId === message.messageId)?.files || [],
+				};
+			});
+
+			return merged;
+		}),
 
 	sendMessage: protectedProcedure
 		.input((raw) => v.parse(insertMessageSchema, raw))
@@ -226,11 +274,7 @@ type MessageProps = {
 	files?: FileUploadProps[];
 };
 
-async function sendChatMessage(ctx: ApiContextProps, input: MessageProps) {
-	if (ctx.user === null) {
-		return throwTRPCErrorOnCondition(ctx.user === null, "UNAUTHORIZED", "User", "User is not logged in.");
-	}
-
+async function sendChatMessage(ctx: ApiContextProps & { user: User }, input: MessageProps) {
 	const { threadId } = input;
 	const attachments = input.files ? await handleFileUpload(ctx, input.files) : [];
 
@@ -243,6 +287,15 @@ async function sendChatMessage(ctx: ApiContextProps, input: MessageProps) {
 			senderId: ctx.user.id,
 		})
 		.returning();
+
+	if (attachments) {
+		// Create entry for each image in the images table with messageId and userId, return array of image ids.
+		await Promise.all(
+			attachments.map(async (file) =>
+				ctx.db.insert(images).values({ ...file, messageId: message[0].id, userId: ctx.user.id }),
+			),
+		);
+	}
 	return message;
 }
 

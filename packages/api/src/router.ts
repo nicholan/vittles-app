@@ -10,7 +10,7 @@ export const appRouter = router({
 	post: postRouter,
 	file: fileRouter,
 	message: messageRouter,
-	notifications: notificationsRouter,
+	notification: notificationsRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -25,6 +25,7 @@ export const createContext = async (env: Bindings, opts: FetchCreateContextFnOpt
 	let user: User | null = null;
 	const db = createDb(env);
 	const r2 = createStorageClient(env);
+
 	const auth = await getAuthIdFromSessionToken(opts, env.JWT_VERIFICATION_KEY);
 
 	if (!auth) {
