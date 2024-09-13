@@ -6,6 +6,7 @@ export { NewPost } from "./src/features/post-create/PostCreateForm";
 export { SignInSignUp } from "./src/pages/sign-in-sign-up/SignInSignUp";
 export { Sidebar } from "./src/features/sidebar/Sidebar";
 export { UserCard } from "./src/features/user-card/UserCard";
+export { CreatePostModal } from "./src/features/post-create/PostCreateModal";
 
 export { Provider } from "./src/providers/index";
 export { supabase } from "./src/auth/supabase/client";

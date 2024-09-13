@@ -1,5 +1,5 @@
+import { BREAKPOINTS, CARDS, DRAWER, SIDEBAR } from "@vittles/ui";
 import { Platform, useWindowDimensions } from "react-native";
-import { DRAWER, CARDS, SIDEBAR, BREAKPOINTS } from "@vittles/ui";
 
 export function useResponsiveLayout() {
 	const { width, height } = useWindowDimensions();

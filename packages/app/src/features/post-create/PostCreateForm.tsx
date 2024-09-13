@@ -1,18 +1,19 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
-import { Button, Text, Textarea, LoadingSpinner, CARDS } from "@vittles/ui";
-import { Image as ImageIcon, Send, Film, X, ChevronLeft, ChevronRight } from "@vittles/ui";
+import { Button, CARDS, LoadingSpinner, Text, Textarea } from "@vittles/ui";
+import { ChevronLeft, ChevronRight, Film, Image as ImageIcon, X } from "@vittles/ui";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import { useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FlatList, Platform, View, useWindowDimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { match } from "ts-pattern";
 import * as v from "valibot";
+import { calculatePreviewImageSize } from "../../utils/image";
 import { error, idle, loading } from "../../utils/trpc/pattern";
 import { trpc } from "../../utils/trpc/trpc";
-import { calculatePreviewImageSize } from "../../utils/image";
-import { useRef, useCallback, useState } from "react";
+import type { ListRenderItem } from "react-native";
 
 type Attachment = {
 	key: string;
@@ -48,17 +49,15 @@ const CreatePostSchema = v.pipe(
 );
 
 type PostProps = {
-	parentPostId?: number;
+	rootPostId?: number;
 	replyToPostId?: number;
-	replyToHandle?: string;
 	submitButtonText?: string;
 	placeHolderText?: string;
 };
 
 export const NewPost = ({
-	parentPostId = null,
+	rootPostId = null,
 	replyToPostId = null,
-	replyToHandle = null,
 	submitButtonText = "Send",
 	placeHolderText = "Content",
 }: PostProps) => {
@@ -98,7 +97,7 @@ export const NewPost = ({
 	const contentField = watch("content");
 	const filesField = watch("files");
 
-	const presignedUrls = trpc.post.getPresignedUrls.useQuery(
+	const presignedUrls = trpc.file.getPresignedUrls.useQuery(
 		{
 			count: filesField.length,
 		},
@@ -136,7 +135,12 @@ export const NewPost = ({
 			);
 		}
 
-		create.mutate({ content: content.length > 0 ? content : null, files: attachments, parentPostId: parentPostId });
+		create.mutate({
+			content: content.length > 0 ? content : null,
+			files: attachments,
+			rootPostId: rootPostId,
+			replyToPostId: replyToPostId,
+		});
 	};
 
 	const pickImage = async () => {
@@ -212,7 +216,7 @@ export const NewPost = ({
 		</Button>
 	);
 
-	const renderImage = ({ item, index }) => {
+	const renderImage = ({ item, index }: { item: (typeof filesField)[number]; index: number }) => {
 		const { width, height } = calculatePreviewImageSize({
 			imageWidth: item.width,
 			imageHeight: item.height,

@@ -1,8 +1,8 @@
-import { Muted, Text, Button, HoverCard, HoverCardContent, HoverCardTrigger } from "@vittles/ui";
-import { View } from "react-native";
-import { shortenName, formatCount } from "../../utils/string";
-import { Link } from "expo-router";
+import { Button, HoverCard, HoverCardContent, HoverCardTrigger, Muted, Text } from "@vittles/ui";
 import { Image } from "expo-image";
+import { Link } from "expo-router";
+import { View } from "react-native";
+import { formatCount, shortenText } from "../../utils/string";
 
 type Variants =
 	| "cardWithAvatarHover"
@@ -10,7 +10,8 @@ type Variants =
 	| "cardNoHover"
 	| "avatarOnly"
 	| "largeCardNoBio"
-	| "profileCard";
+	| "profileCard"
+	| "notificationUserCard";
 
 type Props = {
 	username: string;
@@ -39,6 +40,7 @@ const Names = ({
 	asLink = false,
 	row = false,
 	shorten = false,
+	displayOnly = false,
 	...props
 }: {
 	displayName: string;
@@ -47,14 +49,15 @@ const Names = ({
 	asLink?: boolean;
 	row?: boolean;
 	shorten?: boolean;
+	displayOnly?: boolean;
 }) => {
-	const username = shorten ? shortenName(props.username) : props.username;
-	const displayName = shorten ? shortenName(props.displayName) : props.displayName;
+	const username = shorten ? shortenText(props.username) : props.username;
+	const displayName = shorten ? shortenText(props.displayName) : props.displayName;
 
 	const n = (
 		<View className={`flex ${row ? "flex-row" : "flex-col"}`}>
 			<Text className={`font-bold text-ellipsis ${underline && "hover:underline"}`}>{displayName}</Text>
-			<Muted className="text-ellipsis">@{username}</Muted>
+			{displayOnly ? null : <Muted className="text-ellipsis">@{username}</Muted>}
 		</View>
 	);
 
@@ -156,6 +159,7 @@ const UserProfileCard = (props: Props) => (
 		<Avatar profilePictureUrl={props.profilePictureUrl} size={120} username={props.username} />
 		<View className="flex-1 flex-col self-center">
 			<Names displayName={props.displayName} username={props.username} />
+			<Text>{props.bio}</Text>
 			<FollowCounts username={props.username} follows={props.follows} followedBy={props.followedBy} />
 		</View>
 		{props.isOwnProfile === false && (
@@ -168,6 +172,20 @@ const UserProfileCard = (props: Props) => (
 	</View>
 );
 
+const NotificationUserCard = (props: Props) => (
+	<HoverCard>
+		<HoverCardTrigger>
+			<View className="flex flex-row gap-2 items-center">
+				<Avatar profilePictureUrl={props.profilePictureUrl} username={props.username} />
+				<Names displayName={props.displayName} username={props.username} underline asLink displayOnly />
+			</View>
+		</HoverCardTrigger>
+		<HoverCardContent className="w-full max-w-xs">
+			<UserPreviewCard {...props} />
+		</HoverCardContent>
+	</HoverCard>
+);
+
 export function UserCard(props: Props & { variant: Variants }) {
 	const variants = {
 		cardWithAvatarHover: <CardWithAvatarHover {...props} />,
@@ -176,6 +194,7 @@ export function UserCard(props: Props & { variant: Variants }) {
 		avatarOnly: <Avatar {...props} />,
 		largeCardNoBio: <LargeCardNoBio {...props} />,
 		profileCard: <UserProfileCard {...props} />,
+		notificationUserCard: <NotificationUserCard {...props} />,
 	};
 
 	return variants[props.variant];

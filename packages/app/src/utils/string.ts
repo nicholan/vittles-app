@@ -34,7 +34,7 @@ export function formatCount(count: number): string {
 	return `${(count / 1000000).toFixed(1).replace(/\.0$/, "")}M`;
 }
 
-export function shortenName(name: string, maxLength = 15): string {
+export function shortenText(name: string, maxLength = 15): string {
 	if (name.length <= maxLength) {
 		return name;
 	}

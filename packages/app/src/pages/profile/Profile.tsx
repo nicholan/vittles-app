@@ -1,10 +1,9 @@
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView } from "react-native";
+import { match } from "ts-pattern";
+import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
 import { TabsFlatlist } from "../../features/tabs-flatlist/TabsFlatlist";
 import { UserCard } from "../../features/user-card/UserCard";
 import { trpc } from "../../utils/trpc/trpc";
-import { ScrollView } from "react-native";
-import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
-import { match } from "ts-pattern";
 
 type ProfileProps = {
 	username: string;
@@ -17,12 +16,12 @@ export const Profile = ({ username }: ProfileProps) => {
 
 	const queryDispatchTable = {
 		posts: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
-		replies: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
-		media: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
-		likes: (args: { username: string }) => trpc.post.getPostsByUsername.useQuery(args),
+		replies: (args: { username: string }) => trpc.post.getRepliesByUsername.useQuery(args),
+		media: (args: { username: string }) => trpc.post.getMediaByUsername.useQuery(args),
+		likes: (args: { username: string }) => trpc.post.getLikedPostsByUsername.useQuery(args),
 	};
 
-	const layout = match(userQuery)
+	const userProfileCard = match(userQuery)
 		.with({ isLoading: true }, () => null)
 		.with({ isError: true }, () => null)
 		.with({ isSuccess: true }, ({ data }) => {
@@ -33,7 +32,7 @@ export const Profile = ({ username }: ProfileProps) => {
 	return (
 		<MainColumnsLayout>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				{layout}
+				{userProfileCard}
 				<TabsFlatlist queryDispatchTable={queryDispatchTable} queryValue={{ username }} />
 			</ScrollView>
 		</MainColumnsLayout>

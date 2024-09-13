@@ -2,18 +2,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { NewPost } from "./PostCreateForm";
 
 type PostProps = {
-	replyToHandle?: string;
-	parentPostId?: number;
+	rootPostId?: number;
 	replyToPostId?: number;
 	createPostButton?: JSX.Element;
 };
 
-export const CreatePostModal = ({
-	parentPostId = null,
-	replyToPostId = null,
-	replyToHandle = null,
-	createPostButton,
-}: PostProps) => {
+export const CreatePostModal = ({ rootPostId = null, replyToPostId = null, createPostButton }: PostProps) => {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>{createPostButton}</DialogTrigger>
@@ -24,7 +18,7 @@ export const CreatePostModal = ({
 						{/* <Muted>{replyToHandle ? `@${replyToHandle}` : "Create Post"}</Muted> */}
 					</DialogTitle>
 					<DialogDescription className={"flex-1"}>
-						<NewPost parentPostId={parentPostId} replyToPostId={replyToPostId} />
+						<NewPost rootPostId={rootPostId} replyToPostId={replyToPostId} />
 					</DialogDescription>
 				</DialogHeader>
 			</DialogContent>

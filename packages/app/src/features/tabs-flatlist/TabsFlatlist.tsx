@@ -2,12 +2,12 @@ import type { TRPCClientErrorLike } from "@trpc/react-query";
 import type { UseTRPCQueryResult } from "@trpc/react-query/dist/shared";
 import type { AppRouter } from "@vittles/api";
 import { Tabs, TabsContent, TabsList, TabsTrigger, Text } from "@vittles/ui";
+import { BlurView } from "expo-blur";
 import { useState } from "react";
 import type { ListRenderItem } from "react-native";
+import { Platform, ScrollView } from "react-native";
 import { CustomFlatList } from "../flatlist/FlatList";
-import { ScrollView, Platform } from "react-native";
 import { PostCard } from "../post-card/PostCard";
-import { BlurView } from "expo-blur";
 
 type TabsFlatlistProps<QueryArgs extends object, Item extends object> = {
 	queryDispatchTable: Record<string, (args: QueryArgs) => UseTRPCQueryResult<Item[], TRPCClientErrorLike<AppRouter>>>;

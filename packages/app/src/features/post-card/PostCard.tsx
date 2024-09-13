@@ -24,7 +24,7 @@ type CardProps = {
 	reblogsCount: number;
 	commentsCount: number;
 	favoritesCount: number;
-	parentPostId?: number | null;
+	rootPostId?: number | null;
 	replyToPostId?: number | null;
 };
 
@@ -36,7 +36,7 @@ type FooterProps = Pick<
 	| "favoritesCount"
 	| "reblogsCount"
 	| "createdAt"
-	| "parentPostId"
+	| "rootPostId"
 	| "replyToPostId"
 >;
 
@@ -57,7 +57,7 @@ export const PostCard = ({
 	commentsCount,
 	favoritesCount,
 	profilePictureUrl,
-	parentPostId,
+	rootPostId,
 	replyToPostId,
 }: CardProps) => {
 	return (
@@ -88,7 +88,7 @@ export const PostCard = ({
 					favoritesCount={favoritesCount}
 					commentsCount={commentsCount}
 					createdAt={createdAt}
-					parentPostId={parentPostId}
+					rootPostId={rootPostId}
 					replyToPostId={replyToPostId}
 				/>
 			</View>
@@ -115,16 +115,7 @@ const Header = (props: HeaderProps) => (
 	</CardHeader>
 );
 
-const Footer = ({
-	postId,
-	commentsCount,
-	favoritesCount,
-	reblogsCount,
-	createdAt,
-	parentPostId,
-	replyToPostId,
-	username,
-}: FooterProps) => {
+const Footer = ({ postId, commentsCount, favoritesCount, reblogsCount, createdAt, rootPostId }: FooterProps) => {
 	const [numComments, setNumComments] = useState(commentsCount);
 	const [numFavorites, setNumFavorites] = useState(favoritesCount);
 	const [numReblogs, setNumReblogs] = useState(reblogsCount);
@@ -144,12 +135,7 @@ const Footer = ({
 	return (
 		<CardFooter className="flex flex-row justify-between pb-0 px-0 pt-3 m-0">
 			<View className="flex flex-row">
-				<CreatePostModal
-					createPostButton={cp}
-					parentPostId={parentPostId}
-					replyToPostId={postId}
-					replyToHandle={username}
-				/>
+				<CreatePostModal createPostButton={cp} rootPostId={rootPostId} replyToPostId={postId} />
 				<Link asChild href={`/post/${postId}`}>
 					<Button
 						variant="ghost"

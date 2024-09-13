@@ -1,9 +1,9 @@
 import type { TRPCClientErrorLike } from "@trpc/react-query";
 import type { UseTRPCQueryResult } from "@trpc/react-query/dist/shared";
 import type { AppRouter } from "@vittles/api";
-import type { FlatListProps as RNFlatListProps } from "react-native";
-import { LoadingSpinner, Text, Separator } from "@vittles/ui";
+import { LoadingSpinner, Separator, Text } from "@vittles/ui";
 import React from "react";
+import type { FlatListProps as RNFlatListProps } from "react-native";
 import { FlatList, View } from "react-native";
 import type { ListRenderItem, ListRenderItemInfo } from "react-native";
 import { match } from "ts-pattern";

@@ -1,6 +1,6 @@
+import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
 import { TabsFlatlist } from "../../features/tabs-flatlist/TabsFlatlist";
 import { trpc } from "../../utils/trpc/trpc";
-import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
 
 export function Home() {
 	const queryDispatchTable = {

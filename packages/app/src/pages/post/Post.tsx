@@ -1,11 +1,11 @@
 import type { ListRenderItem } from "react-native";
-import { CustomFlatList } from "../../features/flatlist/FlatList";
-import { PostCardMain } from "../../features/post-card/PostCardMain";
-import { PostCard } from "../../features/post-card/PostCard";
-import { match } from "ts-pattern";
 import { ScrollView } from "react-native";
-import { trpc } from "../../utils/trpc/trpc";
+import { match } from "ts-pattern";
+import { CustomFlatList } from "../../features/flatlist/FlatList";
 import { MainColumnsLayout } from "../../features/layouts/MainColumnLayout";
+import { PostCard } from "../../features/post-card/PostCard";
+import { PostCardMain } from "../../features/post-card/PostCardMain";
+import { trpc } from "../../utils/trpc/trpc";
 
 const queryDispatchTable = {
 	post: (postId: number) => trpc.post.getPost.useQuery({ postId }),

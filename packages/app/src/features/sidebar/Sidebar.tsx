@@ -1,5 +1,5 @@
-import { Text, Card, CardTitle, CardHeader, CardContent, CardFooter, Button, Muted } from "@vittles/ui";
-import { View, ScrollView } from "react-native";
+import { Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Muted, Text } from "@vittles/ui";
+import { ScrollView, View } from "react-native";
 import { useResponsiveLayout } from "../../hooks/useResponsiveLayout";
 import { UserCard } from "../user-card/UserCard";
 

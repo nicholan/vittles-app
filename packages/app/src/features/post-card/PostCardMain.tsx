@@ -10,8 +10,8 @@ import {
 	CardHeader,
 	CardTitle,
 	Muted,
-	Text,
 	Separator,
+	Text,
 } from "@vittles/ui";
 import { Heart, MessageSquare, Repeat2, Reply as ReplyIcon, Share } from "@vittles/ui";
 import { Image } from "expo-image";
@@ -19,9 +19,9 @@ import { Link } from "expo-router";
 import { useState } from "react";
 import { Platform, Pressable, View } from "react-native";
 import { formatCount } from "../../utils/string";
+import { formatDate } from "../../utils/string";
 import { trpc } from "../../utils/trpc/trpc";
 import { NewPost } from "../post-create/PostCreateForm";
-import { formatDate } from "../../utils/string";
 
 type CardProps = {
 	content: string;
@@ -34,7 +34,7 @@ type CardProps = {
 	reblogsCount: number;
 	commentsCount: number;
 	favoritesCount: number;
-	parentPostId?: number | null;
+	rootPostId?: number | null;
 	replyToPostId?: number | null;
 };
 
@@ -46,7 +46,7 @@ type FooterProps = Pick<
 	| "favoritesCount"
 	| "reblogsCount"
 	| "createdAt"
-	| "parentPostId"
+	| "rootPostId"
 	| "replyToPostId"
 >;
 
@@ -64,8 +64,7 @@ export const PostCardMain = ({
 	commentsCount,
 	favoritesCount,
 	profilePictureUrl,
-	parentPostId,
-	replyToPostId,
+	rootPostId,
 }: CardProps) => {
 	return (
 		<Card className={"w-full max-w-[576px] rounded-none border-0 px-[12px]"}>
@@ -78,8 +77,8 @@ export const PostCardMain = ({
 				favoritesCount={favoritesCount}
 				commentsCount={commentsCount}
 				createdAt={createdAt}
-				parentPostId={parentPostId}
-				replyToPostId={replyToPostId}
+				rootPostId={rootPostId}
+				replyToPostId={postId}
 			/>
 		</Card>
 	);
@@ -124,8 +123,7 @@ const Footer = ({
 	favoritesCount,
 	reblogsCount,
 	createdAt,
-	parentPostId,
-	replyToPostId,
+	rootPostId,
 	username,
 }: FooterProps) => {
 	const [numComments, setNumComments] = useState(commentsCount);
@@ -174,7 +172,12 @@ const Footer = ({
 						<Muted className="font-bold">@{username}</Muted>
 					</Link>
 				</Muted>
-				<NewPost submitButtonText="Reply" placeHolderText="Post your reply" parentPostId={parentPostId} />
+				<NewPost
+					submitButtonText="Reply"
+					placeHolderText="Post your reply"
+					rootPostId={rootPostId ? rootPostId : postId}
+					replyToPostId={postId}
+				/>
 			</View>
 		</CardFooter>
 	);

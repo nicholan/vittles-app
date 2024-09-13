@@ -1,8 +1,8 @@
-import { View, ScrollView } from "react-native";
-import { useResponsiveLayout } from "../../hooks/useResponsiveLayout";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Sidebar } from "../sidebar/Sidebar";
 import { useLayoutEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useResponsiveLayout } from "../../hooks/useResponsiveLayout";
+import { Sidebar } from "../sidebar/Sidebar";
 
 type MainColumnsLayoutProps = {
 	children: React.ReactNode;
