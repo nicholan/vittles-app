@@ -103,3 +103,7 @@ export { EllipsisVertical };
 import { CircleEllipsis } from "lucide-react-native";
 iconWithClassName(CircleEllipsis);
 export { CircleEllipsis };
+
+import { Plus } from "lucide-react-native";
+iconWithClassName(Plus);
+export { Plus };

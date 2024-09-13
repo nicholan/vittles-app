@@ -1,4 +1,4 @@
-import { useAugmentedRef, useControllableState, useRelativePosition, type LayoutPosition } from "@rn-primitives/hooks";
+import { type LayoutPosition, useAugmentedRef, useControllableState, useRelativePosition } from "@rn-primitives/hooks";
 import { Portal as RNPPortal } from "@rn-primitives/portal";
 import * as Slot from "@rn-primitives/slot";
 import type {
@@ -14,12 +14,12 @@ import type {
 import * as React from "react";
 import {
 	BackHandler,
-	Pressable,
-	Text,
-	View,
 	type GestureResponderEvent,
 	type LayoutChangeEvent,
 	type LayoutRectangle,
+	Pressable,
+	Text,
+	View,
 } from "react-native";
 import type {
 	DropdownMenuCheckboxItemProps,
